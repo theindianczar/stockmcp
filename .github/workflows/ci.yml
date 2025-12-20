@@ -22,7 +22,7 @@ jobs:
         run: python -m pip install uv
 
       - name: Install project and dev dependencies
-        run: python -m uv pip install -e .[dev]
+        run: python -m uv run pip install -e .[dev]
 
       - name: Run tests with coverage
         run: python -m uv run pytest --cov=app --cov-report=xml

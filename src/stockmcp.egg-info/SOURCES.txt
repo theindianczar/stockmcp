@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/app/__init__.py
+src/app/main.py
+src/stockmcp.egg-info/PKG-INFO
+src/stockmcp.egg-info/SOURCES.txt
+src/stockmcp.egg-info/dependency_links.txt
+src/stockmcp.egg-info/requires.txt
+src/stockmcp.egg-info/top_level.txt
+tests/test_health.py
+tests/test_price.py

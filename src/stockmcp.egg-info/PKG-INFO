@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: stockmcp
+Version: 0.1.0
+Summary: Personal stock trading MCP system
+Requires-Python: >=3.11
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: yfinance
+Requires-Dist: pandas
+Requires-Dist: numpy
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: httpx; extra == "dev"

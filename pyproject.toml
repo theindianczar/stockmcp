@@ -1,9 +1,30 @@
 [project]
 name = "stockmcp"
 version = "0.1.0"
-description = "Investing app skeleton"
-requires-python = ">=3.8"
+description = "Personal stock trading MCP system"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "yfinance",
+    "pandas",
+    "numpy"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "httpx"
+]
 
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=65.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

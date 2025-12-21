@@ -8,3 +8,6 @@ numpy
 pytest
 pytest-cov
 httpx
+pre-commit
+ruff
+black

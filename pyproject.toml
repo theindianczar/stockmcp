@@ -16,7 +16,10 @@ dependencies = [
 dev = [
     "pytest",
     "pytest-cov",
-    "httpx"
+    "httpx",
+    "pre-commit",
+    "ruff",
+    "black"
 ]
 
 [build-system]

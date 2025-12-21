@@ -1,7 +1,14 @@
-def main():
-    """Simple entrypoint for the investing app."""
-    print("Hello from investing-app (stockmcp)")
+from fastapi import FastAPI
+
+from app.logging import configure_logging, get_logger
+
+configure_logging()
+logger = get_logger(__name__)
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def health():
+    logger.info("Health check called")
+    return {"status": "ok"}

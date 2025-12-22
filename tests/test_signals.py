@@ -16,8 +16,8 @@ def test_swing_strategy_buy_signal():
     data = [
         OHLCV(
             symbol="AAPL",
-            date=start + timedelta(days=i),
-            open=0,
+            candle_date=start + timedelta(days=i),
+            open_price=0,
             high=0,
             low=0,
             close=100 + i,

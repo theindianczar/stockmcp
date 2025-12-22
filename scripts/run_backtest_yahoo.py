@@ -5,6 +5,7 @@ from app.signals.swing_sma_rsi import SwingSMARsiStrategy
 
 
 def main():
+    """Run a backtest using Yahoo market data and the Swing SMA RSI strategy."""
     print(">>> Script started")
     symbol = "WIPRO.NS"
     start_date = date(2025, 4, 1)

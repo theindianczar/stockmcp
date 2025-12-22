@@ -19,8 +19,8 @@ class MockMarketDataProvider(MarketDataProvider):
         return [
             OHLCV(
                 symbol=symbol,
-                date=start,
-                open=100.0,
+                candle_date=start,
+                open_price=100.0,
                 high=110.0,
                 low=95.0,
                 close=105.0,

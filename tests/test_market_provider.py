@@ -17,5 +17,5 @@ def test_mock_market_data_provider():
     candle = data[0]
 
     assert candle.symbol == "AAPL"
-    assert candle.open == pytest.approx(100.0)
+    assert candle.open_price == pytest.approx(100.0)
     assert candle.close == pytest.approx(105.0)

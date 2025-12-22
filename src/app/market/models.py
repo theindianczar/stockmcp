@@ -1,18 +1,12 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class OHLCV(BaseModel):
-    """
-    Canonical market candle.
-
-    This is the ONLY format used internally.
-    """
-
-    symbol: str
-    date: date
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: int
+    symbol: str = Field(description="The stock symbol for the OHLCV data.")
+    candle_date: date = Field(description="The date of the candle.")
+    open_price: float = Field(description="The opening price of the period.")
+    high: float = Field(description="The highest price during the period.")
+    low: float = Field(description="The lowest price during the period.")
+    close: float = Field(description="The closing price of the period.")
+    volume: int = Field(description="The trading volume during the period.")

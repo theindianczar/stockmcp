@@ -12,8 +12,8 @@ def test_backtest_runs_and_returns_results():
     data = [
         OHLCV(
             symbol="AAPL",
-            date=start + timedelta(days=i),
-            open=100 + i,
+            candle_date=start + timedelta(days=i),
+            open_price=100 + i,
             high=105 + i,
             low=95 + i,
             close=102 + i,

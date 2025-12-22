@@ -35,8 +35,8 @@ class YahooMarketDataProvider(MarketDataProvider):
             candles.append(
                 OHLCV(
                     symbol=symbol,
-                    date=index.date(),
-                    open=float(row["Open"]),
+                    candle_date=index.date(),
+                    open_price=float(row["Open"]),
                     high=float(row["High"]),
                     low=float(row["Low"]),
                     close=float(row["Close"]),

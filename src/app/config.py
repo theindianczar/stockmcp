@@ -1,5 +1,5 @@
 from functools import lru_cache
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import os
 
 
@@ -11,15 +11,21 @@ class Settings(BaseModel):
     Defaults are safe for local development.
     """
 
-    app_name: str = "stockmcp"
-    environment: str = "dev"  # dev | test | prod
-    log_level: str = "INFO"
-
-    # Market data
-    market_timezone: str = "Asia/Kolkata"
-
-    # Feature flags (future use)
-    enable_backtesting: bool = True
+    app_name: str = Field(
+        default="stockmcp", description="The name of the application."
+    )
+    environment: str = Field(
+        default="dev", description="The deployment environment (dev, test, prod)."
+    )
+    log_level: str = Field(
+        default="INFO", description="The logging level for the application."
+    )
+    market_timezone: str = Field(
+        default="Asia/Kolkata", description="The timezone for market data."
+    )
+    enable_backtesting: bool = Field(
+        default=True, description="Flag to enable or disable backtesting features."
+    )
 
 
 @lru_cache

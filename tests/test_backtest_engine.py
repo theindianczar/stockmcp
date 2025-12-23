@@ -31,3 +31,6 @@ def test_backtest_runs_and_returns_results():
 
     assert result.total_trades >= 0
     assert isinstance(result.total_pnl, float)
+
+    assert len(result.equity_curve) > 0
+    assert 0.0 <= result.max_drawdown <= 1.0

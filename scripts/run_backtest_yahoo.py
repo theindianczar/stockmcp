@@ -35,6 +35,7 @@ def main():
             f"SELL {t.exit_date} @ {t.exit_price:.2f} | "
             f"PnL: {t.pnl:.2f}"
         )
+    print(f"Max drawdown : {result.max_drawdown:.2%}")
 
 
 if __name__ == "__main__":

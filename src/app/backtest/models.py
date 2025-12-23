@@ -32,3 +32,9 @@ class BacktestResult(BaseModel):
     trades: List[Trade] = Field(
         description="A list of all trades executed during the backtest."
     )
+    equity_curve: List[float] = Field(
+        description="A list representing the equity curve over time."
+    )
+    max_drawdown: float = Field(
+        description="The maximum drawdown experienced during the backtest."
+    )

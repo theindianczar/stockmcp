@@ -1,4 +1,5 @@
 from typing import List
+from app.backtest.metrics import max_drawdown
 from app.backtest.models import BacktestResult, Trade
 from app.market.models import OHLCV
 from app.portfolio.engine import PortfolioEngine
@@ -81,4 +82,6 @@ class BacktestEngine:
             total_pnl=total_pnl,
             win_rate=(wins / len(trades)) if trades else 0.0,
             trades=trades,
+            equity_curve=equity_curve,
+            max_drawdown=max_drawdown(equity_curve),
         )

@@ -14,3 +14,17 @@ __pycache__/
 
 # VS Code
 .vscode/
+
+# =========================
+# Frontend (Next.js / Node)
+# =========================
+web/node_modules/
+web/.next/
+web/out/
+web/.env
+web/.env.local
+web/.env.*.local
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/.turbo/

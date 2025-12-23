@@ -47,7 +47,7 @@ class SwingSMARsiStrategy(SignalStrategy):
             return TradingSignal(
                 symbol=latest.symbol,
                 signal=SignalType.SELL,
-                reason="Downtrend confirmed (SMA crossover) and RSI above 30",
+                reason="Downtrend confirmed (SMA crossover) and RSI above 20",
             )
 
         return TradingSignal(

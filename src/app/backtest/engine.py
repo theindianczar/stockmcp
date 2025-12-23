@@ -54,9 +54,11 @@ class BacktestEngine:
                 and candle.symbol not in portfolio_before.positions
                 and candle.symbol in portfolio.positions
             ):
+                pos = portfolio.positions[candle.symbol]
                 trades.append(
                     Trade(
                         symbol=candle.symbol,
+                        quantity=pos.quantity,
                         entry_date=candle.candle_date,
                         entry_price=candle.close,
                     )
@@ -70,8 +72,9 @@ class BacktestEngine:
                 last_trade = trades[-1]
                 last_trade.exit_date = candle.candle_date
                 last_trade.exit_price = candle.close
-                last_trade.pnl = last_trade.exit_price - last_trade.entry_price
-
+                last_trade.pnl = (
+                    last_trade.exit_price - last_trade.entry_price
+                ) * last_trade.quantity
             equity_curve.append(portfolio.equity)
 
         total_pnl = portfolio.equity - initial_cash

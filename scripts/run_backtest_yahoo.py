@@ -7,7 +7,7 @@ from app.signals.swing_sma_rsi import SwingSMARsiStrategy
 def main():
     """Run a backtest using Yahoo market data and the Swing SMA RSI strategy."""
     print(">>> Script started")
-    symbol = "WIPRO.NS"
+    symbol = "GOLD"
     start_date = date(2025, 4, 1)
     end_date = date(2025, 12, 20)
 
@@ -29,12 +29,21 @@ def main():
 
     print("\n=== Executed Trades ===")
     for t in result.trades:
-        print(
-            f"{t.symbol} | "
-            f"BUY {t.entry_date} @ {t.entry_price:.2f} → "
-            f"SELL {t.exit_date} @ {t.exit_price:.2f} | "
-            f"PnL: {t.pnl:.2f}"
-        )
+        if t.exit_date is None:
+            print(
+                f"{t.symbol} | "
+                f"BUY {t.quantity} @ {t.entry_price:.2f} "
+                f"on {t.entry_date} → OPEN"
+            )
+        else:
+            print(
+                f"{t.symbol} | "
+                f"BUY {t.quantity} @ {t.entry_price:.2f} "
+                f"on {t.entry_date} → "
+                f"SELL @ {t.exit_price:.2f} on {t.exit_date} | "
+                f"PnL: {t.pnl:.2f}"
+            )
+
     print(f"Max drawdown : {result.max_drawdown:.2%}")
 
 

@@ -7,6 +7,7 @@ class Trade(BaseModel):
     """A model representing a single trade executed during a backtest."""
 
     symbol: str = Field(description="The stock symbol for the trade.")
+    quantity: int = Field(description="The quantity of shares traded.")
     entry_date: date = Field(description="The date when the trade was entered.")
     entry_price: float = Field(description="The price at which the trade was entered.")
     exit_date: date | None = Field(

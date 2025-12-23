@@ -24,7 +24,10 @@ def test_backtest_runs_and_returns_results():
 
     strategy = SwingSMARsiStrategy()
     engine = BacktestEngine()
-    result = engine.run(data=data, strategy=strategy)
+    result = engine.run(data=data, strategy=strategy, initial_cash=100_000)
+
+    assert isinstance(result.total_pnl, float)
+    assert result.total_trades >= 0
 
     assert result.total_trades >= 0
     assert isinstance(result.total_pnl, float)

@@ -8,12 +8,37 @@ export type Trade = {
   pnl?: number | null;
 };
 
+export type EquityPoint = {
+  date: string;
+  equity: number;
+  drawdown: number;
+};
+
+export type Metrics = {
+  cagr: number;
+  volatility: number;
+  sharpe: number;
+  sortino: number;
+  profit_factor: number;
+  time_in_market: number;
+  avg_trade_duration_days: number;
+  max_consecutive_losses: number;
+  max_drawdown: number;
+  total_pnl: number;
+};
+
 export type BacktestResult = {
   symbol: string;
   initial_cash: number;
+  metrics: Metrics;
+  equity_curve:{
+    date: string;
+    equity: number;
+    drawdown: number;
+  }[]
   total_pnl: number;
   max_drawdown: number;
-  equity_curve: number[];
+
   trades: Trade[];
 };
 

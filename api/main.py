@@ -53,14 +53,33 @@ def run_backtest(
         "initial_cash": initial_cash,
         "total_pnl": result.total_pnl,
         "max_drawdown": result.max_drawdown,
-        "equity_curve": result.equity_curve,
+        "metrics": {
+            "cagr": result.cagr,
+            "volatility": result.volatility,
+            "sharpe": result.sharpe,
+            "sortino": result.sortino,
+            "profit_factor": result.profit_factor,
+            "time_in_market": result.time_in_market,
+            "avg_trade_duration_days": result.avg_trade_duration_days,
+            "max_consecutive_losses": result.max_consecutive_losses,
+            "max_drawdown": result.max_drawdown,
+            "total_pnl": result.total_pnl,
+        },
+        "equity_curve": [
+            {
+                "date": str(point.point_date),
+                "equity": point.equity,
+                "drawdown": point.drawdown,
+            }
+            for point in result.equity_curve
+        ],
         "trades": [
             {
                 "symbol": t.symbol,
                 "quantity": t.quantity,
-                "entry_date": t.entry_date,
+                "entry_date": str(t.entry_date),
                 "entry_price": t.entry_price,
-                "exit_date": t.exit_date,
+                "exit_date": str(t.exit_date) if t.exit_date else None,
                 "exit_price": t.exit_price,
                 "pnl": t.pnl,
             }

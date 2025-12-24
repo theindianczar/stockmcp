@@ -23,8 +23,12 @@ export type Metrics = {
   time_in_market: number;
   avg_trade_duration_days: number;
   max_consecutive_losses: number;
-  max_drawdown: number;
-  total_pnl: number;
+};
+
+export type Decision = {
+  category: "INVEST" | "CAUTION" | "REJECT";
+  score: number;
+  reasons: string[];
 };
 
 export type BacktestResult = {
@@ -38,9 +42,12 @@ export type BacktestResult = {
   }[]
   total_pnl: number;
   max_drawdown: number;
-
+  decision: Decision;
   trades: Trade[];
 };
+
+
+
 
 const API_BASE = "http://127.0.0.1:8000";
 

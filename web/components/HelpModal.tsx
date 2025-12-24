@@ -9,7 +9,7 @@ interface HelpModalProps {
   content: string;
 }
 
-export default function HelpModal({ isOpen, onClose, title, content }: HelpModalProps) {
+export default function HelpModal({ isOpen, onClose, title, content }: Readonly<HelpModalProps>) {
   if (!isOpen) return null;
 
   return (

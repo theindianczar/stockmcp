@@ -54,7 +54,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Toolti
   return null;
 };
 
-export default function EquityCurve({ equityCurve }: Props) {
+export default function EquityCurve({ equityCurve }: Readonly<Props>) {
   const [showHelp, setShowHelp] = useState(false);
 
   const data = equityCurve.map((point) => ({

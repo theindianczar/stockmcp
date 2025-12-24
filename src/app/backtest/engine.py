@@ -1,6 +1,7 @@
 from typing import List
 from app.backtest.metrics import calculate_drawdowns
 from app.backtest.models import BacktestResult, Trade, EquityPoint
+from app.decision.engine import DecisionEngine
 from app.market.models import OHLCV
 from app.portfolio.engine import PortfolioEngine
 from app.portfolio.models import Portfolio
@@ -106,17 +107,27 @@ class BacktestEngine:
 
         returns = calculate_returns(equity_values)
 
-        cagr = calculate_cagr(
-            initial_cash,
-            portfolio.equity,
-            dates[0],
-            dates[-1],
-        )
+        metrics = {
+            "cagr": calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
+            "volatility": calculate_volatility(returns),
+            "sharpe": calculate_sharpe(
+                calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
+                calculate_volatility(returns),
+            ),
+            "sortino": calculate_sortino(
+                calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
+                returns,
+            ),
+            "profit_factor": calculate_profit_factor(trades),
+            "time_in_market": calculate_time_in_market(equity_curve, trades),
+            "avg_trade_duration_days": calculate_avg_trade_duration(trades),
+            "max_consecutive_losses": calculate_max_consecutive_losses(trades),
+            "max_drawdown": max(drawdowns) if drawdowns else 0.0,
+        }
 
-        volatility = calculate_volatility(returns)
-        sharpe = calculate_sharpe(cagr, volatility)
-        sortino = calculate_sortino(cagr, returns)
-        result = BacktestResult(
+        decision = DecisionEngine().evaluate(metrics)
+
+        return BacktestResult(
             total_trades=len(trades),
             total_pnl=portfolio.equity - initial_cash,
             win_rate=(
@@ -126,15 +137,6 @@ class BacktestEngine:
             ),
             trades=trades,
             equity_curve=equity_curve,
-            max_drawdown=max(drawdowns) if drawdowns else 0.0,
-            cagr=cagr,
-            volatility=volatility,
-            sharpe=sharpe,
-            sortino=sortino,
-            profit_factor=calculate_profit_factor(trades),
-            time_in_market=calculate_time_in_market(equity_curve, trades),
-            avg_trade_duration_days=calculate_avg_trade_duration(trades),
-            max_consecutive_losses=calculate_max_consecutive_losses(trades),
+            **metrics,
+            decision=decision,
         )
-
-        return result

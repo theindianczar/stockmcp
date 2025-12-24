@@ -62,3 +62,5 @@ class BacktestResult(BaseModel):
     max_consecutive_losses: int = Field(
         description="The maximum number of consecutive losing trades."
     )
+
+    decision: dict = Field(description="The decision result from the decision engine.")

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { runBacktest, BacktestResult, Trade } from "@/lib/api";
 import EquityCurve from "@/components/EquityCurve";
 import DrawdownChart from "@/components/DrawdownChart";
+import DecisionSummary from "@/components/DecisionSummary";
 
 const formatINR = (value: number) => {
   return new Intl.NumberFormat('en-IN', {
@@ -124,15 +125,18 @@ export default function Dashboard() {
 
       {data && (
         <>
+          {/* Decision Summary */}
+          <DecisionSummary decision={data.decision} />
           {/* Metrics */}
           <div className="grid grid-cols-3 gap-4">
-            <Metric label="Total PnL" value={formatINR(data.metrics.total_pnl)} />
+            <Metric label="Total PnL" value={formatINR(data.total_pnl)} />
             <Metric
               label="Max Drawdown"
-              value={`${(data.metrics.max_drawdown * 100).toFixed(2)}%`}
+              value={`${(data.max_drawdown * 100).toFixed(2)}%`}
             />
             <Metric label="Trades" value={data.trades.length} />
           </div>
+
 
           {/* Charts */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -140,12 +144,13 @@ export default function Dashboard() {
             <DrawdownChart equityCurve={data.equity_curve} />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Metric label="Total PnL (₹)" value={formatINR(data.metrics.total_pnl)} />
+            <Metric label="Total PnL (₹)" value={formatINR(data.total_pnl)} />
+
             <Metric label="CAGR" value={(data.metrics.cagr * 100).toFixed(2) + "%"} />
             <Metric label="Sharpe" value={data.metrics.sharpe.toFixed(2)} />
             <Metric label="Sortino" value={data.metrics.sortino.toFixed(2)} />
             <Metric label="Volatility" value={(data.metrics.volatility * 100).toFixed(2) + "%"} />
-            <Metric label="Max Drawdown" value={(data.metrics.max_drawdown * 100).toFixed(2) + "%"} />
+            <Metric label="Max Drawdown" value={(data.max_drawdown * 100).toFixed(2) + "%"} />
             <Metric label="Profit Factor" value={data.metrics.profit_factor.toFixed(2)} />
             <Metric label="Time in Market" value={(data.metrics.time_in_market * 100).toFixed(1) + "%"} />
             <Metric label="Avg Trade Duration" value={`${data.metrics.avg_trade_duration_days.toFixed(1)} days`} />

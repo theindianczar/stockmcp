@@ -29,6 +29,20 @@ export type Decision = {
   category: "INVEST" | "CAUTION" | "REJECT";
   score: number;
   reasons: string[];
+  details?: Metrics;
+  checks?: {
+    name: string;
+    metric: string;
+    value: number;
+    threshold: number;
+    passed: boolean;
+  }[];
+  contributions?: {
+    metric: string;
+    value: number;
+    weight: number;
+    contribution: number;
+  }[];
 };
 
 export type BacktestResult = {

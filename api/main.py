@@ -46,6 +46,7 @@ def run_backtest(
         data=data,
         strategy=strategy,
         initial_cash=initial_cash,
+        symbol=symbol,
     )
 
     return result

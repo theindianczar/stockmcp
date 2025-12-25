@@ -43,6 +43,14 @@ export default function Dashboard() {
     }
   };
 
+  if (data && !data.metrics) {
+    return (
+      <div className="p-6 text-gray-500">
+        Backtest data received but metrics are missing.
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">StockMCP Dashboard</h1>
@@ -123,7 +131,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {data && (
+      {data?.metrics &&  (
         <>
           {/* Decision Summary */}
           <DecisionSummary decision={data.decision} />

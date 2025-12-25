@@ -24,11 +24,24 @@ class BacktestEngine:
     Portfolio-aware backtesting engine.
     """
 
+    def _empty_metrics(self) -> dict:
+        return {
+            "cagr": 0.0,
+            "volatility": 0.0,
+            "sharpe": 0.0,
+            "sortino": 0.0,
+            "profit_factor": 0.0,
+            "time_in_market": 0.0,
+            "avg_trade_duration_days": 0.0,
+            "max_consecutive_losses": 0,
+        }
+
     def run(
         self,
         data: List[OHLCV],
         strategy: SignalStrategy,
         initial_cash: float = 100_000,
+        symbol: str | None = None,
     ) -> BacktestResult:
         portfolio = Portfolio(
             cash=initial_cash,
@@ -93,41 +106,40 @@ class BacktestEngine:
 
         # Calculate drawdowns
         drawdowns = calculate_drawdowns(equity_values)
-        peak = equity_values[0] if equity_values else initial_cash
-        for eq in equity_values:
-            if eq > peak:
-                peak = eq
-            drawdowns.append((peak - eq) / peak if peak > 0 else 0.0)
 
         # Create equity curve with dates and drawdowns
         equity_curve = [
-            EquityPoint(point_date=date, equity=equity, drawdown=drawdown)
-            for date, equity, drawdown in zip(dates, equity_values, drawdowns)
+            EquityPoint(date=dt, equity=eq, drawdown=dd)
+            for dt, eq, dd in zip(dates, equity_values, drawdowns)
         ]
 
         returns = calculate_returns(equity_values)
 
+        max_dd = max(drawdowns) if drawdowns else 0.0
+
+        cagr_val = (
+            calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1])
+            if dates
+            else 0.0
+        )
+
         metrics = {
-            "cagr": calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
+            "cagr": cagr_val,
             "volatility": calculate_volatility(returns),
-            "sharpe": calculate_sharpe(
-                calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
-                calculate_volatility(returns),
-            ),
-            "sortino": calculate_sortino(
-                calculate_cagr(initial_cash, portfolio.equity, dates[0], dates[-1]),
-                returns,
-            ),
+            "sharpe": calculate_sharpe(cagr_val, calculate_volatility(returns)),
+            "sortino": calculate_sortino(cagr_val, returns),
             "profit_factor": calculate_profit_factor(trades),
             "time_in_market": calculate_time_in_market(equity_curve, trades),
             "avg_trade_duration_days": calculate_avg_trade_duration(trades),
             "max_consecutive_losses": calculate_max_consecutive_losses(trades),
-            "max_drawdown": max(drawdowns) if drawdowns else 0.0,
+            "max_drawdown": max_dd,
         }
 
         decision = DecisionEngine().evaluate(metrics)
 
         return BacktestResult(
+            symbol=symbol,
+            initial_cash=initial_cash,
             total_trades=len(trades),
             total_pnl=portfolio.equity - initial_cash,
             win_rate=(
@@ -137,6 +149,7 @@ class BacktestEngine:
             ),
             trades=trades,
             equity_curve=equity_curve,
-            **metrics,
+            metrics=metrics,
+            max_drawdown=max_dd,
             decision=decision,
         )
